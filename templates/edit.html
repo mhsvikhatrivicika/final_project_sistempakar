@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Variabel</title>
+</head>
+<body>
+    <h1>Edit Variabel</h1>
+
+    <form action="/update/{{ variabel[0] }}" method="post">
+        <input type="text" name="name" value="{{ variabel[1] }}" placeholder="Nama Variabel" required>
+        <select name="type">
+            <option value="input" {% if variabel[2] == 'input' %} selected {% endif %}>Input</option>
+            <option value="output" {% if variabel[2] == 'output' %} selected {% endif %}>Output</option>
+        </select>
+        <textarea name="question" required>{{ variabel[3] }}</textarea>
+        <button type="submit">Simpan Perubahan</button>
+    </form>
+
+    <a href="/">Kembali ke Daftar Variabel</a>
+</body>
+</html>

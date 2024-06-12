@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Data Linguistik</title>
+</head>
+<body>
+    <h1>Edit Data Linguistik</h1>
+    <form action="/edit/{{ linguistic[0] }}" method="POST">
+        <label for="label_tml">Label TML:</label>
+        <input type="text" id="label_tml" name="label_tml" value="{{ linguistic[1] }}"><br><br>
+        <button type="submit">Simpan Perubahan</button>
+    </form>
+</body>
+</html>

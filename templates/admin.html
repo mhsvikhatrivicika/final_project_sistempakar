@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Variabel</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daftar Variabel</h1>
+
+    <form action="/add" method="post">
+        <input type="text" name="name" placeholder="Nama Variabel" required>
+        <select name="type">
+            <option value="input">Input</option>
+            <option value="output">Output</option>
+        </select>
+        <textarea name="question" placeholder="Pertanyaan" required></textarea>
+        <button type="submit">Tambah Variabel</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Nama Variabel</th>
+            <th>Tipe Variabel</th>
+            <th>Pertanyaan</th>
+            <th>Aksi</th>
+        </tr>
+        {% for variabel in variabels %}
+            <tr>
+                <td>{{ variabel[1] }}</td>
+                <td>{{ variabel[2] }}</td>
+                <td>{{ variabel[3] }}</td>
+                <td>
+                    <a href="/edit/{{ variabel[0] }}">Edit</a>
+                    <a href="/delete/{{ variabel[0] }}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

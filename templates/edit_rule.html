@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Rule</title>
+</head>
+<body>
+    <h1>Edit Rule</h1>
+    <form action="/edit_rule/{{ rule[0] }}" method="POST">
+        <label for="id_tmv">Variable:</label><br>
+        <select id="id_tmv" name="id_tmv">
+            {% for variable in variables %}
+                <option value="{{ variable[0] }}" {% if variable[0] == rule[1] %} selected {% endif %}>{{ variable[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <label for="id_tml">Label:</label><br>
+        <select id="id_tml" name="id_tml">
+            {% for label in labels %}
+                <option value="{{ label[0] }}" {% if label[0] == rule[2] %} selected {% endif %}>{{ label[2] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <label for="rule_ttfr">Rule:</label><br>
+        <input type="text" id="rule_ttfr" name="rule_ttfr" value="{{ rule[3] }}"><br>
+        <label for="output_ttfr">Output:</label><br>
+        <input type="text" id="output_ttfr" name="output_ttfr" value="{{ rule[4] }}"><br><br>
+        <button type="submit">Update Rule</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuzzy Logic Form</title>
+</head>
+<body>
+    <h1>Fuzzy Logic Form</h1>
+    <form id="fuzzyForm">
+        <label for="kebahagian">Kebahagiaan:</label>
+        <input type="number" id="kebahagian" name="kebahagian" min="1" max="10" required><br><br>
+        
+        <label for="prestasi_akademik">Prestasi Akademik:</label>
+        <input type="number" id="prestasi_akademik" name="prestasi_akademik" min="1" max="10" required><br><br>
+        
+        <label for="kemandirian">Kemandirian:</label>
+        <input type="number" id="kemandirian" name="kemandirian" min="1" max="10" required><br><br>
+        
+        <label for="keterampilan_sosial">Keterampilan Sosial:</label>
+        <input type="number" id="keterampilan_sosial" name="keterampilan_sosial" min="1" max="10" required><br><br>
+        
+        <label for="tingkat_stres">Tingkat Stres:</label>
+        <input type="number" id="tingkat_stres" name="tingkat_stres" min="1" max="10" required><br><br>
+        
+        <label for="kepercayaan_diri">Kepercayaan Diri:</label>
+        <input type="number" id="kepercayaan_diri" name="kepercayaan_diri" min="1" max="10" required><br><br>
+        
+        <label for="kedisiplinan">Kedisiplinan:</label>
+        <input type="number" id="kedisiplinan" name="kedisiplinan" min="1" max="10" required><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        document.getElementById("fuzzyForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var form = document.getElementById("fuzzyForm");
+            var formData = new FormData(form);
+
+            fetch('/fuzzy', {
+                method: 'POST',
+                body: JSON.stringify(Object.fromEntries(formData.entries())),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var outputDiv = document.getElementById("output");
+                outputDiv.innerHTML = "<h2>Output:</h2>" +
+                                      "<p>Nilai Output: " + data.output_value + "</p>" +
+                                      "<p>Pola Asuh: " + data.pola_asuh + "</p>";
+                
+                var membershipValuesString = JSON.stringify(data.membership_values);
+                outputDiv.innerHTML += "<p>Membership Values: " + membershipValuesString + "</p>";
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

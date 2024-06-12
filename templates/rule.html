@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rule Management</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Rule Management</h1>
+    <h2>Add Rule</h2>
+    <form action="/add_rule" method="POST">
+        <label for="id_tmv">Variable:</label><br>
+        <select id="id_tmv" name="id_tmv">
+            {% for variable in variables %}
+                <option value="{{ variable[0] }}">{{ variable[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+        <label for="id_tml">Label:</label><br>
+        <select id="id_tml" name="id_tml">
+            <!-- Labels will be loaded dynamically based on selected variable -->
+        </select><br><br>
+        <label for="rule_ttfr">Rule:</label><br>
+        <input type="text" id="rule_ttfr" name="rule_ttfr"><br>
+        <label for="output_ttfr">Output:</label><br>
+        <input type="text" id="output_ttfr" name="output_ttfr"><br><br>
+        <button type="submit">Add Rule</button>
+    </form>
+
+    <h2>Existing Rules</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Variable</th>
+                <th>Label</th>
+                <th>Rule</th>
+                <th>Output</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rule in rules %}
+                <tr>
+                    <td>{{ rule[0] }}</td>
+                    <td>{{ rule[1] }}</td>
+                    <td>{{ rule[2] }}</td>
+                    <td>{{ rule[3] }}</td>
+                    <td>{{ rule[4] }}</td>
+                    <td>
+                        <a href="/edit_rule/{{ rule[0] }}">Edit</a>
+                        <form action="/delete_rule/{{ rule[0] }}" method="POST" style="display: inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Function to load labels based on selected variable
+        $(document).ready(function(){
+            $('#id_tmv').change(function(){
+                var id_tmv = $(this).val();
+                $.ajax({
+                    url: '/load_labels',
+                    type: 'GET',
+                    data: {id_tmv: id_tmv},
+                    success: function(response){
+                        var labels = response.labels;
+                        $('#id_tml').empty();
+                        for(var i=0; i<labels.length; i++){
+                            $('#id_tml').append('<option value="' + labels[i][0] + '">' + labels[i][2] + '</option>');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
